@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  motivationgames:
+    image: motivationgames
+    build:
+      context: .
+      dockerfile: MotivationGames\Dockerfile
