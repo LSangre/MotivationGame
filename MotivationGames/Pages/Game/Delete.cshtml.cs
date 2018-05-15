@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using MotivationGame.Data;
+using MotivationGame.DataLayer.Data;
 
-namespace MotivationGame.Pages.Game
+namespace MotivationGames.Pages.Game
 {
     public class DeleteModel : PageModel
     {
-        private readonly MotivationGame.Data.ApplicationDbContext _context;
+        private readonly MotivationGame.DataLayer.Data.ApplicationDbContext _context;
 
-        public DeleteModel(MotivationGame.Data.ApplicationDbContext context)
+        public DeleteModel(MotivationGame.DataLayer.Data.ApplicationDbContext context)
         {
             _context = context;
         }

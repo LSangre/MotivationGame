@@ -8,6 +8,7 @@ namespace MotivationGame.DataLayer.Repositories
     public interface IGameRepository
     {
         void CreateGame(Game game);
-
+        List<Game> List(string userId);
+        void AddGameGoals(string userId, long gameId, List<Goal> goalList);
     }
 }

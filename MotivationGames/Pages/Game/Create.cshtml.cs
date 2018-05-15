@@ -6,16 +6,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MotivationGame.DataLayer.Data;
+using MotivationGame.DataLayer.Repositories;
+using MotivationGame.Models;
 
-namespace MotivationGame.Pages.Game
+namespace MotivationGames.Pages.Game
 {
     public class CreateModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly MotivationGame.DataLayer.Data.ApplicationDbContext _context;
+        private readonly IGameRepository _gameRepository;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(MotivationGame.DataLayer.Data.ApplicationDbContext context,
+            IGameRepository gameRepository)
         {
             _context = context;
+            _gameRepository = gameRepository;
         }
 
         public IActionResult OnGet()
@@ -24,7 +29,7 @@ namespace MotivationGame.Pages.Game
         }
 
         [BindProperty]
-        public Game Game { get; set; }
+        public CreateGameModel Game { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -33,6 +38,7 @@ namespace MotivationGame.Pages.Game
                 return Page();
             }
 
+            
             _context.Game.Add(Game);
             await _context.SaveChangesAsync();
 

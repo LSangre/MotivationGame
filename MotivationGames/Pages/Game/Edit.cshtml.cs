@@ -1,17 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using MotivationGame.DataLayer.Data;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using MotivationGame.DataLayer.Data;
 
-namespace MotivationGame.Pages.Game
+namespace MotivationGames.Pages.Game
 {
     public class EditModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly MotivationGame.DataLayer.Data.ApplicationDbContext _context;
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(MotivationGame.DataLayer.Data.ApplicationDbContext context)
         {
             _context = context;
         }

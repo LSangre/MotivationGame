@@ -13,6 +13,6 @@ namespace MotivationGame.DataLayer.Data
         public ApplicationUser Creator { get; set; }
         public ICollection<ApplicationUser> Players { get; set; }
         public GameType GameType { get; set; }
-
+        public virtual List<Goal> Goals {get; set;}
     }
 }
