@@ -18,6 +18,6 @@ namespace MotivationGame.DataLayer.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        public DbSet<Game> Game { get; set; }
+        public DbSet<Game> Games { get; set; }
     }
 }

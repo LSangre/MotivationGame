@@ -18,11 +18,11 @@ namespace MotivationGames.Pages.Game
             _context = context;
         }
 
-        public IList<Game> Game { get;set; }
+        public IList<MotivationGame.DataLayer.Data.Game> Game { get;set; }
 
         public async Task OnGetAsync()
         {
-            Game = await _context.Game.ToListAsync();
+            Game = await _context.Games.ToListAsync();
         }
     }
 }

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MotivationGame.DataLayer.Data;
 using MotivationGame.DataLayer.Repositories;
 using MotivationGame.Models;
+using AutoMapper;
+using MotivationGames.Extensions;
 
 namespace MotivationGames.Pages.Game
 {
@@ -15,12 +17,15 @@ namespace MotivationGames.Pages.Game
     {
         private readonly MotivationGame.DataLayer.Data.ApplicationDbContext _context;
         private readonly IGameRepository _gameRepository;
+        private readonly IMapper _mapper;
 
         public CreateModel(MotivationGame.DataLayer.Data.ApplicationDbContext context,
-            IGameRepository gameRepository)
+            IGameRepository gameRepository,
+            IMapper mapper)
         {
             _context = context;
             _gameRepository = gameRepository;
+            _mapper = mapper;
         }
 
         public IActionResult OnGet()
@@ -29,7 +34,7 @@ namespace MotivationGames.Pages.Game
         }
 
         [BindProperty]
-        public CreateGameModel Game { get; set; }
+        public CreateGameModel Model { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -38,9 +43,10 @@ namespace MotivationGames.Pages.Game
                 return Page();
             }
 
-            
-            _context.Game.Add(Game);
-            await _context.SaveChangesAsync();
+            var game = _mapper.Map<MotivationGame.DataLayer.Data.Game>(Model);
+            game.CreatorId = User.GetUserId();
+
+            _gameRepository.Create(game);
 
             return RedirectToPage("./Index");
         }

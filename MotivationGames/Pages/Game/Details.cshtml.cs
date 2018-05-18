@@ -18,7 +18,7 @@ namespace MotivationGames.Pages.Game
             _context = context;
         }
 
-        public Game Game { get; set; }
+        public MotivationGame.DataLayer.Data.Game Game { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
@@ -27,7 +27,7 @@ namespace MotivationGames.Pages.Game
                 return NotFound();
             }
 
-            Game = await _context.Game.SingleOrDefaultAsync(m => m.Id == id);
+            Game = await _context.Games.SingleOrDefaultAsync(m => m.Id == id);
 
             if (Game == null)
             {

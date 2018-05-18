@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -5,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MotivationGame.DataLayer.Data;
+using MotivationGame.DataLayer.Repositories;
 using MotivationGame.Services;
 
 namespace MotivationGame
@@ -28,6 +30,7 @@ namespace MotivationGame
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddAutoMapper();
             services.AddMvc()
                 .AddRazorPagesOptions(options =>
                 {
@@ -38,6 +41,7 @@ namespace MotivationGame
             // Register no-op EmailSender used by account confirmation and password reset during development
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddTransient<IGameRepository, GameRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
