@@ -9,6 +9,7 @@ namespace MotivationGame.DataLayer.Data
             : base(options)
         {
         }
+        public DbSet<Game> Games { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -18,6 +19,6 @@ namespace MotivationGame.DataLayer.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        public DbSet<Game> Games { get; set; }
+        
     }
 }

@@ -17,7 +17,26 @@ namespace MotivationGame.DataLayer.Repositories
 
         public void AddGoals(string userId, long gameId, List<Goal> goalList)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                throw new NullReferenceException(string.Format("Пользователь с айди {0} не найден", userId));
+            }
+
+            var game = _context.Games.FirstOrDefault(g => g.Id == gameId);
+            if (game == null)
+            {
+                throw new NullReferenceException(string.Format("Пользователь с айди {0} не найден", userId));
+            }
+
+            game.Goals.AddRange(goalList);
+            
+            if(!game.Players.Contains(user))
+            {
+                game.Players.Add(user);
+            }
+
+            _context.SaveChanges();
         }
 
         public void Create(Game game)

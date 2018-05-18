@@ -15,15 +15,12 @@ namespace MotivationGames.Pages.Game
 {
     public class CreateModel : PageModel
     {
-        private readonly MotivationGame.DataLayer.Data.ApplicationDbContext _context;
         private readonly IGameRepository _gameRepository;
         private readonly IMapper _mapper;
 
-        public CreateModel(MotivationGame.DataLayer.Data.ApplicationDbContext context,
-            IGameRepository gameRepository,
+        public CreateModel(IGameRepository gameRepository,
             IMapper mapper)
         {
-            _context = context;
             _gameRepository = gameRepository;
             _mapper = mapper;
         }
