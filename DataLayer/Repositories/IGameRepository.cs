@@ -10,5 +10,6 @@ namespace MotivationGame.DataLayer.Repositories
         void Create(Game game);
         List<Game> List(string userId);
         void AddGoals(string userId, long gameId, List<Goal> goalList);
+        Game Get(long id);
     }
 }

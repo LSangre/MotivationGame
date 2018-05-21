@@ -8,6 +8,7 @@ namespace MotivationGame.DataLayer.Enums
     public enum GameType
     {
         None = 0,
-        Marathon = 1
+        WeekTasks,
+        Marathon = 2
     }
 }

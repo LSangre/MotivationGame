@@ -45,6 +45,14 @@ namespace MotivationGame.DataLayer.Repositories
             _context.SaveChanges();
         }
 
+        public Game Get(long id)
+        {
+            var game = _context.Games.FirstOrDefault(g => g.Id == id 
+                                            //&& (g.Players.Select(p => p.Id).Contains(userId))
+                                            );
+            return game;
+        }
+
         public List<Game> List(string userId)
         {
             var list = _context.Games.Where(g => g.CreatorId == userId).ToList();
