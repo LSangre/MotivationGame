@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MotivationGame.DataLayer.Data;
 using MotivationGame.DataLayer.Repositories;
-using MotivationGames.Extensions;
+using MotivationGame.Extensions;
 
-namespace MotivationGames.Controllers
+namespace MotivationGame.Controllers
 {
     [Produces("application/json")]
     [Route("api/Game")]

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MotivationGame.DataLayer.Data;
 using MotivationGame.Models;
 
-namespace MotivationGames.AutoMapper
+namespace MotivationGame.AutoMapper
 {
     public class Maps : Profile
     {

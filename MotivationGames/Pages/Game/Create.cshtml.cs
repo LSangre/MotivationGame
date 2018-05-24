@@ -9,9 +9,9 @@ using MotivationGame.DataLayer.Data;
 using MotivationGame.DataLayer.Repositories;
 using MotivationGame.Models;
 using AutoMapper;
-using MotivationGames.Extensions;
+using MotivationGame.Extensions;
 
-namespace MotivationGames.Pages.Game
+namespace MotivationGame.Pages.Game
 {
     public class CreateModel : PageModel
     {

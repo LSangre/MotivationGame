@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MotivationGame.DataLayer.Data;
 using MotivationGame.DataLayer.Repositories;
-using MotivationGames.Extensions;
+using MotivationGame.Extensions;
 
-namespace MotivationGames.Pages.Game
+namespace MotivationGame.Pages.Game
 {
     public class IndexModel : PageModel
     {

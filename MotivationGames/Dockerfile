@@ -4,11 +4,11 @@ EXPOSE 80
 
 FROM microsoft/aspnetcore-build:2.0-nanoserver-1709 AS build
 WORKDIR /src
-COPY MotivationGames.sln ./
-COPY MotivationGames/MotivationGames.csproj MotivationGames/
+COPY MotivationGame.sln ./
+COPY MotivationGame/MotivationGame.csproj MotivationGame/
 RUN dotnet restore -nowarn:msb3202,nu1503
 COPY . .
-WORKDIR /src/MotivationGames
+WORKDIR /src/MotivationGame
 RUN dotnet build -c Release -o /app
 
 FROM build AS publish
@@ -17,4 +17,4 @@ RUN dotnet publish -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "MotivationGames.dll"]
+ENTRYPOINT ["dotnet", "MotivationGame.dll"]

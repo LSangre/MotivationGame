@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace MotivationGames.Extensions
+namespace MotivationGame.Extensions
 {
     public static class GetUserIdExtension
     {

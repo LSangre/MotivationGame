@@ -129,7 +129,7 @@ namespace MotivationGame.Pages.Account.Manage
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("MotivationGames"),
+                _urlEncoder.Encode("MotivationGame"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

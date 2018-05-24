@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MotivationGame.DataLayer.Data;
 
-namespace MotivationGames.Pages.Game
+namespace MotivationGame.Pages.Game
 {
     public class DetailsModel : PageModel
     {

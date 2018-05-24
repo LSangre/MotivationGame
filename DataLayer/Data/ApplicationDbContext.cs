@@ -10,7 +10,7 @@ namespace MotivationGame.DataLayer.Data
         {
         }
         public DbSet<Game> Games { get; set; }
-
+        public DbSet<Invitation> Invitations { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
