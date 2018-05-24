@@ -20,5 +20,9 @@ namespace MotivationGame.DataLayer.Data
         public long GameId { get; set; }
 
         public bool Active { get; set; }
+
+        [ForeignKey("GameId")]
+        public ApplicationUser Sender { get; set; }
+        public string SenderId { get; set; }
     }
 }
