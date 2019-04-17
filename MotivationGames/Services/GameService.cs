@@ -14,14 +14,14 @@ namespace MotivationGames.Services
         private readonly IGameRepository _gameRepository;
         private readonly IInvitationRepository _invitationRepository;
         private readonly IEmailSender _emailSender;
-        private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly IUserStore<User> _userStore;
 
         private const string domain = "domain";
 
         public GameService(IGameRepository gameRepository,
                             IInvitationRepository invitationRepository,
                             IEmailSender emailSender,
-                            IUserStore<ApplicationUser> userStore)
+                            IUserStore<User> userStore)
         {
             _gameRepository = gameRepository;
             _invitationRepository = invitationRepository;

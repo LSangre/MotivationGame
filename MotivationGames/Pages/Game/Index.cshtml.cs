@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using MotivationGame.Controllers;
 using MotivationGame.DataLayer.Data;
 using MotivationGame.DataLayer.Repositories;
 using MotivationGame.Extensions;
@@ -13,21 +14,20 @@ namespace MotivationGame.Pages.Game
 {
     public class IndexModel : PageModel
     {
-        private readonly MotivationGame.DataLayer.Data.ApplicationDbContext _context;
-        private readonly IGameRepository _gameRepository;
+        private readonly GameController _gameController;
 
-        public IndexModel(MotivationGame.DataLayer.Data.ApplicationDbContext context,
-            IGameRepository gameRepository)
+        public IndexModel(GameController gameController)
         {
-            _context = context;
-            _gameRepository = gameRepository;
+            _gameController = gameController;
         }
 
-        public IList<MotivationGame.DataLayer.Data.Game> Model { get;set; }
+        [BindProperty]
+        public IList<MotivationGame.DataLayer.Data.Game> Model { get; set; }
 
         public async Task OnGetAsync()
         {
-            Model = _gameRepository.List(User.GetUserId());
+            var games = await _gameController.Get();
+            Model = games.ToList();
         }
     }
 }

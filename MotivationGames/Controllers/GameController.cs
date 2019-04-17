@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MotivationGame.DataLayer.Data;
@@ -15,15 +17,22 @@ namespace MotivationGame.Controllers
     public class GameController : Controller
     {
         private readonly IGameRepository _gameRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public GameController(IGameRepository gameRepository)
+        public GameController(IGameRepository gameRepository, IHttpContextAccessor httpContextAccessor)
         {
             _gameRepository = gameRepository;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        private string getUserId()
+        {
+            return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
         // GET: api/Game
         [HttpGet]
-        public IEnumerable<Game> Get()
+        public async Task<IEnumerable<Game>> Get()
         {
             var gameList = _gameRepository.List(User.GetUserId());
             return gameList;
@@ -31,7 +40,7 @@ namespace MotivationGame.Controllers
 
         // GET: api/Game/5
         [HttpGet("{id}", Name = "Get")]
-        public Game Get(int id)
+        public async Task<Game> Get(long id)
         {
             var game = _gameRepository.Get(id);
             return game;
@@ -39,27 +48,26 @@ namespace MotivationGame.Controllers
         
         // POST: api/Game
         [HttpPost]
-        public void Post([FromBody]Game game)
+        [Authorize]
+        public async Task<IActionResult> Post([FromBody]Game game)
         {
-            game.CreatorId = User.GetUserId();
+            game.CreatorId = getUserId();
             _gameRepository.Create(game);
+            return Ok(game);
         }
         
         // PUT: api/Game/5
         [HttpPut("{id}")]
+        [Authorize]
         public void Put(int id, [FromBody]string value)
         {
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
+        [Authorize]
         public void Delete(int id)
         {
-        }
-
-        public void AddGoals(List<Goal> goalList, long gameId)
-        {
-            _gameRepository.AddGoals(User.GetUserId(), gameId, goalList);
         }
     }
 }

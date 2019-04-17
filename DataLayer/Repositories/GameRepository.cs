@@ -20,13 +20,13 @@ namespace MotivationGame.DataLayer.Repositories
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             if (user == null)
             {
-                throw new NullReferenceException(string.Format("Пользователь с айди {0} не найден", userId));
+                throw new NullReferenceException($"Пользователь с айди {userId} не найден");
             }
 
             var game = _context.Games.FirstOrDefault(g => g.Id == gameId);
             if (game == null)
             {
-                throw new NullReferenceException(string.Format("Пользователь с айди {0} не найден", userId));
+                throw new NullReferenceException($"Пользователь с айди {userId} не найден");
             }
 
             game.Goals.AddRange(goalList);
@@ -39,17 +39,16 @@ namespace MotivationGame.DataLayer.Repositories
             _context.SaveChanges();
         }
 
-        public void Create(Game game)
+        public Game Create(Game game)
         {
             _context.Games.Add(game);
             _context.SaveChanges();
+            return game;
         }
 
         public Game Get(long id)
         {
-            var game = _context.Games.FirstOrDefault(g => g.Id == id 
-                                            //&& (g.Players.Select(p => p.Id).Contains(userId))
-                                            );
+            var game = _context.Games.FirstOrDefault(g => g.Id == id);
             return game;
         }
 

@@ -14,34 +14,29 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Model.Name" class="control-label"></label>
-                <input asp-for="Model.Name" class="form-control" />
-                <span asp-validation-for="Model.Name" class="text-danger"></span>
+                <label asp-for="Input.Name" class="control-label"></label>
+                <input asp-for="Input.Name" class="form-control" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Model.StartDate" class="control-label" type="date"></label>
-                <input asp-for="Model.StartDate" class="form-control" />
-                <span asp-validation-for="Model.StartDate" class="text-danger"></span>
+                <label asp-for="Input.StartDate" class="control-label" type="date"></label>
+                <input asp-for="Input.StartDate" class="form-control" asp-format="{0:dd/MM/yyyy}"/>
+                <span asp-validation-for="Input.StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Model.FinishDate" class="control-label"></label>
-                <input asp-for="Model.FinishDate" class="form-control" />
-                <span asp-validation-for="Model.FinishDate" class="text-danger"></span>
+                <label asp-for="Input.FinishDate" class="control-label"></label>
+                <input asp-for="Input.FinishDate" class="form-control" asp-format="{0:dd/MM/yyyy}"/>
+                <span asp-validation-for="Input.FinishDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Model.Stake" class="control-label"></label>
-                <input asp-for="Model.Stake" class="form-control" />
-                <span asp-validation-for="Model.Stake" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Создать" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="Index">Назад</a>
 </div>
 
 @section Scripts {

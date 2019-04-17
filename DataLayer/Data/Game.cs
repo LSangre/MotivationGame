@@ -14,11 +14,13 @@ namespace MotivationGame.DataLayer.Data
         public DateTime FinishDate { get; set; }
 
         [ForeignKey("CreatorId")]
-        public ApplicationUser Creator { get; set; }
+        public User Creator { get; set; }
         public string CreatorId { get; set; }
 
-        public ICollection<ApplicationUser> Players { get; set; }
+        public ICollection<User> Players { get; set; }
         public GameType GameType { get; set; }
         public virtual List<Goal> Goals {get; set;}
+
+        public string Rules { get; set; }
     }
 }

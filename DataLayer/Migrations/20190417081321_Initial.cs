@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MotivationGame.DataLayer.Migrations
 {
-    public partial class Start : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -115,6 +115,7 @@ namespace MotivationGame.DataLayer.Migrations
                     FinishDate = table.Column<DateTime>(nullable: false),
                     GameType = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
+                    Rules = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -129,9 +130,9 @@ namespace MotivationGame.DataLayer.Migrations
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Discriminator = table.Column<string>(nullable: false),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
-                    GameId = table.Column<long>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
@@ -141,7 +142,8 @@ namespace MotivationGame.DataLayer.Migrations
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    GameId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -183,6 +185,42 @@ namespace MotivationGame.DataLayer.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Invitations",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    Code = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    GameId = table.Column<long>(nullable: false),
+                    RecipientId = table.Column<string>(nullable: true),
+                    SenderId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invitations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Invitations_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Invitations_AspNetUsers_RecipientId",
+                        column: x => x.RecipientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Invitations_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -211,11 +249,6 @@ namespace MotivationGame.DataLayer.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_GameId",
-                table: "AspNetUsers",
-                column: "GameId");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -226,6 +259,11 @@ namespace MotivationGame.DataLayer.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_GameId",
+                table: "AspNetUsers",
+                column: "GameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Games_CreatorId",
@@ -241,6 +279,21 @@ namespace MotivationGame.DataLayer.Migrations
                 name: "IX_Goal_UserId",
                 table: "Goal",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invitations_GameId",
+                table: "Invitations",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invitations_RecipientId",
+                table: "Invitations",
+                column: "RecipientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invitations_SenderId",
+                table: "Invitations",
+                column: "SenderId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_AspNetUserRoles_AspNetUsers_UserId",
@@ -306,6 +359,9 @@ namespace MotivationGame.DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Goal");
+
+            migrationBuilder.DropTable(
+                name: "Invitations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

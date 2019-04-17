@@ -11,9 +11,9 @@ namespace MotivationGame.DataLayer.Data
         public string Code { get; set; }
         public string Email { get; set; }
 
-        [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
-        public string UserId { get; set; }
+        [ForeignKey("RecipientId")]
+        public virtual User Recipient { get; set; }
+        public string RecipientId { get; set; }
 
         [ForeignKey("GameId")]
         public Game Game { get; set; }
@@ -21,8 +21,8 @@ namespace MotivationGame.DataLayer.Data
 
         public bool Active { get; set; }
 
-        [ForeignKey("GameId")]
-        public ApplicationUser Sender { get; set; }
+        [ForeignKey("SenderId")]
+        public virtual User Sender { get; set; }
         public string SenderId { get; set; }
     }
 }
