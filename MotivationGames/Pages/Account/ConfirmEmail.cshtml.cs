@@ -6,16 +6,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MotivationGame.DataLayer.Data;
+using MotivationGames.Controllers;
 
 namespace MotivationGame.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {
-        private readonly UserManager<User> _userManager;
+        private readonly AccountController _accountController;
 
-        public ConfirmEmailModel(UserManager<User> userManager)
+        public ConfirmEmailModel(AccountController accountController)
         {
-            _userManager = userManager;
+            _accountController = accountController;
         }
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)
@@ -24,19 +25,7 @@ namespace MotivationGame.Pages.Account
             {
                 return RedirectToPage("/Index");
             }
-
-            //var user = await _userManager.FindByIdAsync(userId);
-            //if (user == null)
-            //{
-            //    throw new ApplicationException($"Unable to load user with ID '{userId}'.");
-            //}
-
-            //var result = await _userManager.ConfirmEmailAsync(user, code);
-            //if (!result.Succeeded)
-            //{
-            //    throw new ApplicationException($"Error confirming email for user with ID '{userId}':");
-            //}
-
+            await _accountController.ConfirmEmail(userId, code);
             return Page();
         }
     }

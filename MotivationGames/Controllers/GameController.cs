@@ -32,9 +32,17 @@ namespace MotivationGame.Controllers
 
         // GET: api/Game
         [HttpGet]
-        public async Task<IEnumerable<Game>> Get()
+        public async Task<ActionResult<IEnumerable<Game>>> Get()
         {
-            var gameList = _gameRepository.List(User.GetUserId());
+            var gameList = _gameRepository.List();
+            return gameList;
+        }
+
+        [HttpGet("GetMy")]
+        [Authorize]
+        public async Task<IEnumerable<Game>> GetMine()
+        {
+            var gameList = _gameRepository.List(getUserId());
             return gameList;
         }
 
@@ -59,8 +67,25 @@ namespace MotivationGame.Controllers
         // PUT: api/Game/5
         [HttpPut("{id}")]
         [Authorize]
-        public void Put(int id, [FromBody]string value)
+        public async Task<IActionResult> Put(long id, [FromBody]Game game)
         {
+            var gameToUpdate = _gameRepository.Get(id);
+            if (gameToUpdate == null)
+            {
+                return NotFound("Игра с таким номером не найдена");
+            }
+
+            if (gameToUpdate.CreatorId != getUserId())
+            {
+                return Forbid("Вы не можете редактировать эту игру");
+            }
+
+            gameToUpdate.Name = game.Name;
+            gameToUpdate.FinishDate = game.FinishDate;
+            gameToUpdate.StartDate = game.StartDate;
+            gameToUpdate.Rules = game.Rules;
+            _gameRepository.Update(gameToUpdate);
+            return Ok();
         }
         
         // DELETE: api/ApiWithActions/5

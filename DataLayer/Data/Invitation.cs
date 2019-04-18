@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using MotivationGame.DataLayer.Enums;
 
 namespace MotivationGame.DataLayer.Data
 {
@@ -19,7 +20,7 @@ namespace MotivationGame.DataLayer.Data
         public Game Game { get; set; }
         public long GameId { get; set; }
 
-        public bool Active { get; set; }
+        public InvitationStatus Status { get; set; }
 
         [ForeignKey("SenderId")]
         public virtual User Sender { get; set; }

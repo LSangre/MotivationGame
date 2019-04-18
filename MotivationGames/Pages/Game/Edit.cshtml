@@ -6,7 +6,7 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h2>Редактировать игры</h2>
+<h2>Редактировать игру</h2>
 
 <hr />
 <div class="row">
@@ -28,6 +28,11 @@
                 <label asp-for="Input.FinishDate" class="control-label"></label>
                 <input asp-for="Input.FinishDate" class="form-control" />
                 <span asp-validation-for="Input.FinishDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Rules" class="control-label"></label>
+                <textarea asp-for="Input.Rules" class="form-control"></textarea>
+                <span asp-validation-for="Input.Rules" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Сохранить" class="btn btn-default" />

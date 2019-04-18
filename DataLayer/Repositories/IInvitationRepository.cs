@@ -11,7 +11,8 @@ namespace MotivationGame.DataLayer.Repositories
         void AcceptInvitation(string code, List<Goal> goalList);
         Invitation Get(long id);
         Invitation Get(string code);
-        void AddInvitation(Invitation invitation);
+        Invitation Get(string senderId, string receiverId, long gameId);
+        Invitation Create(Invitation invitation);
         void SetInactive(long id);
     }
 }

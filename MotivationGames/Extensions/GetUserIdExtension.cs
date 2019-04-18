@@ -10,7 +10,7 @@ namespace MotivationGame.Extensions
     {
         public static string GetUserId(this ClaimsPrincipal user)
         {
-            if (!user.Identity.IsAuthenticated)
+            if (user == null  || !user.Identity.IsAuthenticated)
                 return null;
 
             ClaimsPrincipal currentUser = user;

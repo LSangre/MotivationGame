@@ -1,14 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using MotivationGame.Controllers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using MotivationGame.Controllers;
-using MotivationGame.DataLayer.Data;
-using MotivationGame.DataLayer.Repositories;
-using MotivationGame.Extensions;
 
 namespace MotivationGame.Pages.Game
 {
@@ -22,11 +17,11 @@ namespace MotivationGame.Pages.Game
         }
 
         [BindProperty]
-        public IList<MotivationGame.DataLayer.Data.Game> Model { get; set; }
+        public IList<DataLayer.Data.Game> Model { get; set; }
 
         public async Task OnGetAsync()
         {
-            var games = await _gameController.Get();
+            var games = await _gameController.GetMine();
             Model = games.ToList();
         }
     }

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MotivationGame.Services;
+using MotivationGame.DataLayer.Data;
+using MotivationGame.Extensions;
+using MotivationGames.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace MotivationGames.Controllers
 {
@@ -12,12 +12,26 @@ namespace MotivationGames.Controllers
     [Route("api/Invitation")]
     public class InvitationController : Controller
     {
-        private readonly IGameService _gameService;
+        private readonly IInvitationService _invitationService;
 
-        public InvitationController(IGameService gameService)
+        public InvitationController(IInvitationService invitationService)
         {
-            _gameService = gameService;
+            _invitationService = invitationService;
         }
-        
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Post(long gameId, string email)
+        {
+            try
+            {
+                var result = await _invitationService.AddInvitation(User.GetUserId(), string.Empty, 0);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

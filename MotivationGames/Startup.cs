@@ -1,4 +1,7 @@
 using System;
+using System.Text;
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -6,9 +9,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using MotivationGame.DataLayer.Data;
 using MotivationGame.DataLayer.Repositories;
 using MotivationGame.Services;
+using MotivationGames.Automapper;
+using MotivationGames.Services;
 
 namespace MotivationGame
 {
@@ -27,9 +33,12 @@ namespace MotivationGame
             services.AddDbContext<DataLayer.Data.ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(config => { config.SignIn.RequireConfirmedEmail = true; })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer();
             services.AddAuthentication().AddGoogle(googleOptions =>
             {
                 googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
@@ -61,9 +70,23 @@ namespace MotivationGame
 
             // Register no-op EmailSender used by account confirmation and password reset during development
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddSingleton<IEmailSender>(sender => new EmailSender(new AuthMessageSenderOptions
+            {
+                SendGridKey = Configuration["SendGrid:SendGridKey"],
+                SendGridUser = Configuration["SendGrid:SendGridUser"]
+            }));
             services.AddTransient<IGameRepository, GameRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IInvitationRepository, InvitationRepository>();
+            services.AddTransient<IInvitationService, InvitationService>();
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutomapperProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

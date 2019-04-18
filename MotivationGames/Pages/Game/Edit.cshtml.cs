@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,10 +16,12 @@ namespace MotivationGame.Pages.Game
     public class EditModel : PageModel
     {
         private readonly GameController _gameController;
+        private IMapper _mapper;
 
-        public EditModel(GameController gameController)
+        public EditModel(GameController gameController, IMapper mapper)
         {
             _gameController = gameController;
+            _mapper = mapper;
         }
 
         [BindProperty]
@@ -38,12 +41,7 @@ namespace MotivationGame.Pages.Game
                 return NotFound();
             }
 
-            Input = new InputModel
-            {
-                FinishDate = result.FinishDate,
-                Name = result.Name,
-                StartDate = result.StartDate
-            };
+            Input = _mapper.Map<InputModel>(result);
 
             return Page();
         }
@@ -55,24 +53,15 @@ namespace MotivationGame.Pages.Game
                 return Page();
             }
 
-            //_context.Attach(Game).State = EntityState.Modified;
-
-            //try
-            //{
-            //    await _context.SaveChangesAsync();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!GameExists(Game.Id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-
+            var game = new DataLayer.Data.Game
+            {
+                Id = Input.Id,
+                Name = Input.Name,
+                StartDate = Input.StartDate,
+                FinishDate = Input.FinishDate,
+                Rules = Input.Rules
+            };
+            await _gameController.Put(game.Id, game);
             return RedirectToPage("./Index");
         }
 
@@ -91,6 +80,11 @@ namespace MotivationGame.Pages.Game
             [Required(ErrorMessage = "Заполните дату и время окончания игры")]
             [Display(Name = "Конец игры")]
             public DateTime FinishDate { get; set; }
+
+            [Display(Name = "Правила")]
+            [MaxLength(5000)]
+            public string Rules { get; set; }
+
         }
     }
 }

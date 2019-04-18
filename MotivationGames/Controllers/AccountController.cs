@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MotivationGame.DataLayer.Data;
 using MotivationGame.Pages.Account;
 using MotivationGame.Services;
+using System.Threading.Tasks;
 
 namespace MotivationGames.Controllers
 {
@@ -45,6 +40,7 @@ namespace MotivationGames.Controllers
             _logger.LogInformation("User created a new account with password.");
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = System.Web.HttpUtility.UrlEncode(code);
             var callbackUrl = $"http://localhost:60474/Account/ConfirmEmail?code={code}&userId={user.Id}";
             await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
@@ -58,6 +54,24 @@ namespace MotivationGames.Controllers
         {
             await _signInManager.SignOutAsync();
             return new RedirectToPageResult("/Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest($"Unable to load user with ID '{userId}'.");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (!result.Succeeded)
+            {
+                return BadRequest($"Error confirming email for user with ID '{userId}':");
+            }
+
+            return Ok();
         }
 
     }

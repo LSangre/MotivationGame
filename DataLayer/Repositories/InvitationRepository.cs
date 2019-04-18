@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using MotivationGame.DataLayer.Data;
 
 namespace MotivationGame.DataLayer.Repositories
@@ -20,10 +21,11 @@ namespace MotivationGame.DataLayer.Repositories
             throw new NotImplementedException();
         }
 
-        public void AddInvitation(Invitation invitation)
+        public Invitation Create(Invitation invitation)
         {
             _context.Invitations.Add(invitation);
             _context.SaveChanges();
+            return invitation;
         }
 
         public void AddInvitationList(List<Invitation> invitationList)
@@ -42,10 +44,16 @@ namespace MotivationGame.DataLayer.Repositories
             return _context.Invitations.FirstOrDefault(i => i.Code == code);
         }
 
+        public Invitation Get(string senderId, string receiverEmail, long gameId)
+        {
+            return _context.Invitations.FirstOrDefault(x =>
+                x.SenderId == senderId && x.Email == receiverEmail && gameId == gameId);
+        }
+
         public void SetInactive(long id)
         {
             var invitation = _context.Invitations.FirstOrDefault(i => i.Id == id);
-            invitation.Active = false;
+          //  invitation.Active = false;
             _context.SaveChanges();
         }
     }

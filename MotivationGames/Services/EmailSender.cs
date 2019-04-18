@@ -9,9 +9,9 @@ namespace MotivationGame.Services
 {
     public class EmailSender : IEmailSender
     {
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
+        public EmailSender(AuthMessageSenderOptions options)
         {
-            Options = optionsAccessor.Value;
+            Options = options;
         }
 
         public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
@@ -26,7 +26,7 @@ namespace MotivationGame.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("Joe@contoso.com", "Joe Smith"),
+                From = new EmailAddress("noreply@mgame.ru", "MGame"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message

@@ -54,9 +54,9 @@ namespace MotivationGames.Services
                     Code = Guid.NewGuid().ToString(),
                     GameId = gameId,
                     Email = email,
-                    Active = true
+               //     Active = true
                 };
-                _invitationRepository.AddInvitation(invitation);
+            //    _invitationRepository.CreateInvitation(invitation);
                 var link = string.Format("{0}{1}{2}", domain, "/Invitation/Accept?code=", invitation.Code);
                 var invitationMessage = messageTemplate.Replace("%link%}", link);
                 _emailSender.SendEmailAsync(email, subject, invitationMessage);

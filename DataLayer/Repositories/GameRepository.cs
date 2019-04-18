@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using MotivationGame.DataLayer.Data;
 
 namespace MotivationGame.DataLayer.Repositories
@@ -52,10 +53,26 @@ namespace MotivationGame.DataLayer.Repositories
             return game;
         }
 
+        public bool IsExist(long id)
+        {
+            return _context.Games.Any(x => x.Id == id);
+        }
+
         public List<Game> List(string userId)
         {
             var list = _context.Games.Where(g => g.CreatorId == userId).ToList();
             return list;
+        }
+
+        public List<Game> List()
+        {
+            return _context.Games.ToList();
+        }
+
+        public void Update(Game game)
+        {
+            _context.Games.Update(game);
+            _context.SaveChanges();
         }
     }
 }
